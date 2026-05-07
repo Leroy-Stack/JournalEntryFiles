@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>G6060 Journal | My Secure App</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        .entry { border-left: 5px solid #2e6da4; background: #f4f4f4; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+        form { background: #e2e2e2; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        button { background: #2e6da4; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📓 My Secure Journal</h1>
+        <p>Logged in as: <strong>{{ user.username }}</strong> | <a href="/admin/logout/">Logout</a></p>
+    </header>
+
+    <section>
+        <h2>Add a New Entry</h2>
+        <form method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit">🔒 Save Secure Entry</button>
+        </form>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>My Private Entries</h2>
+        {% for entry in entries %}
+            <div class="entry">
+                <h3>{{ entry.title }} <small style="color: #666;">[{{ entry.category }}]</small></h3>
+                <p>{{ entry.content }}</p>
+                <small>Created on: {{ entry.created_at }}</small>
+            </div>
+        {% empty %}
+            <p>No entries found. Start journaling! ✍️</p>
+        {% endfor %}
+    </section>
+
+    <footer>
+        <p><small>Check out the <a href="{% url 'journal_api' %}">JSON Web Service API</a> (Lab 10)</small></p>
+    </footer>
+
+</body>
+</html>
